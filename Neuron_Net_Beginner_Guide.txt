@@ -1,0 +1,131 @@
+#A Beginners Guide to Neural Networks
+
+1. How do NN work?:
+    - 2 phases: Forward Propagation & Back Propagation
+    - For trainning: both these phases
+    - For predicting (unlabelled examples): simply perform ForwardPropagation
+
+    => Back Propagation is the magic to solve 
+       the tranditional question how the computer can LEARN
+
+
+2. Forward Propagation:
+
+    - Input layer => hidden layerS (users never interact with these) => output layer
+
+    - A neuron on a layer simply holds a scalar value (a number) 
+        + The value of each neuron takes on the value of parameters it represents for
+        + The value of a neuron is called it’s *activation*. 
+            => We will represent the activation of a neuron by the symbol a
+
+    - Next, we attach every neuron in the input layer to every neuron in the next layer.
+      We also add a *Weight* to each of these connections.
+        + a Weight also is a scalar value.
+        + w31 means: the weight for the connection between neuron 1 in the first layer 
+                     and neuron 3 in the second layer.
+        + The larger the weight between neurons the stronger the connection between them.
+
+    - Work out the activation values (2parts):
+        + Multiply the activation of each neuron in the previous layer by the weight that is attached to it. 
+          We then add all these terms up and add a ‘bias’ term which we denote b.
+        + Finally, we put this weighted sum through a nonlinear (activation) function 
+          such as tanh(x) or the sigmoid function which I will represent by σ.
+        
+        a₁² = σ(z₁²)
+        {
+            z₁²: the weight sum of the first neuron in the second layer
+            a₁²: the activation of the first neuron in the first hidden layer (second layer of the network)
+            σ  : the nonlinear function (sigmoid activation function)
+            σ(x) = 1 / (1 + exp^(-x)) -> σ'(x) = x * (1 - x)
+        }
+        
+        =>  z^(L) = w^(L-1)*a^(L-1) + b^(L-1)
+            a^(L) = σ(z^(L))
+        {
+            a^(L): the activation of the final layer
+            z^(L): the weighted sum of the final layer
+            w^(L-1):  the weight connecting the two layers L and (L-1)
+            b^(L-1): bias term of layer (L-1)
+        }
+
+        + By repeating the process (with formular above), we get the activations for the neurons on the second layer 
+          and then keep continue to the output layer.
+        ## It is important to know that the weights between different layers are different.
+
+    - The output layer will contain neurons represent for the possibilities,
+      that have an activation value between 0 and 1.
+      E.g: If we want to predict what digit the hand-written image is, there will be 10 possibilities 0,1,2,...,9. 
+            Therefore, we will need an output layer contains 10 neurons.
+    
+    - Then, the highest activation as the NNs guess as to what digit is in the image.
+
+    - Note that before the NN has been trained,  the network will most likely NOT BE ABLE to correctly identify what digit is in the image.
+
+
+3. Back Propagation:
+
+    - To start adjusting our weights and biases to get the NN closer to the correct answer 
+      the first thing we need to do is define a cost function
+
+    - Cost function quantifies how wrong a system is, 
+        which is a single value, not a vector, 
+        because it rates how good the neural network did as a whole.
+    
+    - a basic and popular cost function: MSE - Mean Squared Error.
+        MSE = mean((neuron_activation_value - desired_value)**2)
+
+    - We run the training examples through the network and calculate all of their cost's.
+      Each of the training example has a different cost.
+      We define a single number, called the average cost.
+    E.g: We had 400 training examples, our average cost would be the sum of all the costs of the 400 examples, divided by 400. 
+        This gives us the average cost for 1 round of training,
+        usually called an epoch, let’s represent this by C(w).
+
+    - Now we want to change all of the weights and biases, 
+      so that this cost is as small as possible.
+
+    - Imagine the whole system is characterised by a single weight, instead of the thousands that we have at the moment.
+      Then our cost function C(w) might look something like a parabol with x-axis is weight (w).
+      (Figure 7: Graph showing the cost function C(w) (red) 
+        and two possible values of w (blue circles) 
+        along with their gradients $C(w)/$w (black dashed))
+
+        + As stated before, we want to minimise C(w), 
+          this means We want to change w so we get the minimum of the parabol.
+        + Then we should move to the right if the gradient (derivative of C(w)) is negative,
+          and to the left if the current is positive.
+        + Furthermore, we should move by an amount that is proportional to the gradient.
+          If the gradient is large, we should move by a larger amount than if the gradient is small 
+          as this indicates that we are close to the minimum of the red curve.
+        
+        => This logic can be summed up by *the weight update equation*
+                w(t+1) = w(t) - η * $C(w)/$w
+                {
+                    w(t+1): the weights in the next training
+                    w(t): the weights of the current run
+                    $C(w)/$w: the gradient of the current run
+                    η (or learning rate): controls how much influence the current gradient has on the next update.
+                                            usually 0.01 or 0.001
+                }
+
+        + NOTE: Remember that we do not know the exact surface of C(w) as shown in Fig. 7 
+            otherwise we could simply change our weight to the optimal value to minimise C(w). 
+            We instead have to use our local measurement of the gradient
+            to tells us which direction to move in to get us closer to the minimum.
+
+    =====> The process of calculating the gradient of current position,
+           and then moving by an amount of proportional to the gradient is called
+           *GRADIENT DESCENT*
+    
+    - To perform gradient descent, we need to calculate the derivative of C(w) with respect to each of the weights in our NN.
+
+    -> The technique to finding the gradient of each of the weights in NN called BACK PROPAGATION
+
+
+4. Further question:
+
+    - When to use NN?
+    - When to use each type of Activation?
+    - You could even use different activation functions for different neurons in the same layer. Different activation functions allow for different non-linearities which might work better for solving a specific function.
+    - What can replace for MSE?
+    - Is there any better ways to optimise NN?

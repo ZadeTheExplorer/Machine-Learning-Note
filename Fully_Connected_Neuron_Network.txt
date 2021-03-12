@@ -1,0 +1,92 @@
+1. Review:
+    a. Why should we use neural net and where to use, what to use
+		Every neuron in one layer is connected to every neuron in the next 
+		Can be computationally expensive, Essentially a large matrix multiplication
+
+		- Input: a vector of size (1 x M)
+		- Output: a vector of length (1 x N)
+		- Parameters:
+			+ Weight matrix, [M x N] in size
+			+ Bias vector, [1 x N] in size
+		- Computation:
+			+ Output = input * W + B
+			+ For large M and/or N -> W becomes very large.
+	
+	
+	b. Activation Function: Sigmoid/ReLU
+		- Neural networks connect outputs of one layer to the inputs of the next
+		- However, we dont just feed them straight in, we pass them through an activation Function
+			+ Can be seen to turn some neurons on, and others off
+			+ Introduces non-linearities, helpful for learning complex functions
+			+ Different activations let Different amounts of information flow
+				* Can have impacts on learning.
+
+		- ReLU (Rectified Linear Unit):
+			Linear for a values greater than 0
+			0 for negative values
+
+		- Sigmoid:
+			Maps input to [0, +1]
+			Acts to normalise the outputs (within fixed bounds)
+			Effectively learns a classifier
+		
+		- TanH (Hyperbolic Tangent Function):
+			Maps input to [-1, +1]
+			Otherwise like Sigmoid
+
+
+	Network:
+		- A collection of layers
+			+ Computation layers: Fully connected or convolution
+				can be expressed as y = wx + b where all variables are matrices
+			+ Activation layers
+				non-linear between computations, regulate the flow of the data
+			+ Pooling layers
+				Reduce dimensionality, combine activations
+		- Output of one layer is input to the next
+		
+		- Back Propagation
+			Neural Networks are trained using Back Propagation
+
+
+	Other terminology:									
+		- Optimiser
+			+ Gradient descent approach that we use to train
+
+		- Learning rate
+			+ How fast we allow the model parameters to update
+			+ Bigger number -> Faster Learning
+
+		- Epoch:
+			+ One complete pass through the data
+			+ After one epoch, the network has seen all examples
+		
+		- Batch:
+			+ One update of the networks, based on a small sample of data
+			+ To solve the problem can-not-parsing-all-data-at-once
+			+ is a smallish collection of inputs
+				usually ~ 1-256 depending on - How much data u have
+											 - How big the network is
+											 - How much money u spent on hardware
+	
+		-> Batch size vs Epochs:
+			+ A small batch size means:
+				More updates per epoch
+				Can train the network in fewer epochs because u hv more updates
+				But, 
+					Each batch is less representative of the overall data shape
+					Can lead to a poor fit depending on how imbalanced data is
+			
+			+ A larger batch size leads to:
+				Smoother training
+				Slower convergence (in tearms of epochs)
+				Higher memory requirements
+
+		
+
+
+		c. Weight/bias
+
+		d. Loss Function
+    
+    e. MATH that relevant
